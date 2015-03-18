@@ -1,0 +1,174 @@
+
+<!doctype html> 
+<html> 
+  <head> 
+  <title>A Simple Underscore List Demo</title> 
+  <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+  <script>
+
+function process() {
+  var data;
+	var generatedHTML = "";
+
+  // _.templateSettings = { interpolate: /%%\= v\(\@(.+?)\)\ =%%/g }; 
+     
+  var templateHTML = document.getElementById("template").value; 
+  var template = _.template(templateHTML);
+
+  eval( document.getElementById('data').value );
+
+    /*for(var i=0; i< items.length; i++) {
+      generatedHTML = template({
+          fname: items[i].firstName,
+          lname: items[i].lastName,
+          prefname: items[i].preferredName,
+          address: items[i].address,
+          zip: items[i].zipcode,
+          mempref: items[i].memberPreferences,
+          plat: items[i].platinum
+        });
+      }    */
+// http://www.2ality.com/2012/06/underscore-templates.html
+
+  if(data.length>1) {
+
+  	for(var i = 0; i < data.length; i++) {
+  		generatedHTML += template(data[i]);
+  		if(i < (data.length-1))
+  			generatedHTML += "<hr>"; 
+  }
+  }
+  else if(data.length == 1) generatedHTML += template(data[0]);
+  else generatedHTML += template(data);
+
+	document.getElementById('htmltext').value = generatedHTML;
+  document.getElementById('result').innerHTML = generatedHTML;
+}
+
+
+  </script>
+
+<style>
+
+body {
+  font-family: "Georgia", serif;
+  /*line-height: 1.8em;*/
+  color: #333;
+}
+
+#wrap {
+  width: 57em;
+}
+
+textarea, #result {
+  font-size: .8em;
+  width: 22em; /*31em;*/
+  height: 15em;
+  margin: .75em; /*1em 1em 2em 1em;*/
+  padding: 1em;
+}
+
+textarea {
+  font-family: Courier, fixed;
+}
+
+.panel {
+  float: left;
+}
+
+#result {
+  border: 1px solid #333;
+}
+
+h3 {
+  display block;
+  margin: 2em 0 0 .7em;
+}
+
+.process {
+  font-size: 1.5em; margin-top: 1em;
+  display: block;
+  clear: both;
+  margin: 1em 0;
+  width: 56em;
+  text-align: center;
+}
+
+li {line-height: 1em;}
+
+</style>
+</head> 
+<body onload="process()"> 
+
+  <h3>A Simple Underscore List Demo</h3>
+
+  <div id="wrap">
+
+    <div class="panel">
+
+      <h3>Underscore Template:</h3>
+
+      <textarea id="template" onkeyup="process()" onchange="process()">
+<h4>Product Info: <%= name %></h4>
+
+<ul>
+  <li>Product: <%=name%></li>
+  <li>Colour: <%=colour%></li>
+  <li>Price: $<%=price%></li>
+</ul>
+
+      </textarea>
+
+    </div>
+
+    <div class="panel">
+
+      <h3>Data Object:</h3>
+
+      <textarea id="data" onkeyup="process()" onchange="process()">
+var data = [
+{
+  "name": "SuperWidget",
+  "colour": "yellow",
+  "price": "19.99"
+},
+{
+  "name": "BetaWidget",
+  "colour": "green",
+  "price": "11.99"
+},
+]
+/*
+var data = {
+  "name": "SingleWidget",
+  "colour": "red",
+  "price": "4.99"
+}
+*/
+      </textarea>
+
+    </div>
+
+    <!--div class="process"><button onclick="process()">Process Template</button-->
+    </div>
+
+    <div class="panel">
+      <h3>HTML Result:</h3>
+      <textarea id="htmltext"></textarea>
+    </div>
+
+    <div class="panel">
+      <h3>How It Looks:</h3>
+      <div id="result"></div>
+    </div>
+
+    
+
+  </div>
+
+</html>
+
+</body>
+</html>

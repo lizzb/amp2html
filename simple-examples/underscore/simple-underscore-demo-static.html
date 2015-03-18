@@ -1,0 +1,44 @@
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+
+
+<div id="test"></div>
+
+<script type="text/html" id='simple-template'>
+    Hello %%=v(@fName)=%% %%=v(@lName)=%%! Your main interest is: %%=v(@hobby)=%%<br>
+    <hr>
+</script>
+
+<script>
+  var items =
+[{"preferredName":"","firstName":"George","lastName":"Bluth","email":"george.sr@bluthco.com","isFemale":0,"chickenDance":"Coo-coo-ca-cha!","isAARP":1,"primaryInterest":"entrepreneurship"},
+{"preferredName":"GOB","firstName":"George Oscar","lastName":"Bluth","email":"gobthemagician@bluthco.com","isFemale":0,"chickenDance":"Co-ka-co-ka…","isAARP":0,"primaryInterest":"magic"},
+{"preferredName":"Lindsay","firstName":"Lindsay (né Nellie)","lastName":"Bluth Fünke","email":"shamale@bluthco.com","isFemale":1,"chickenDance":"Cha-chee-cha…","isAARP":0,"primaryInterest":"shopping"},
+{"preferredName":"","firstName":"Lucille","lastName":"Bluth","email":"lucille1@bluthco.com","isFemale":1,"chickenDance":"A-koodle-doodle-doo","isAARP":1,"primaryInterest":"alcohol"}
+];
+
+// &#64; is @ char code btw
+
+// WORKS YAY ... this is underscore, which requires jquery
+_.templateSettings = { interpolate: /%%\=v\(\@(.+?)\)\=%%/g }; 
+
+var templateHTML = document.getElementById("simple-template").innerHTML;
+var template = _.template(templateHTML);
+
+for(var i=0; i< items.length; i++) {
+  var generatedHTML = template(
+  	{
+  		fName: items[i].firstName,
+  		lName: items[i].lastName,
+  		hobby: items[i].primaryInterest,
+  	}); 
+  document.getElementById("test").innerHTML += generatedHTML;
+  }
+</script>
+
+<!--
+http://www.regexr.com/
+http://www.regexplained.co.uk/
+http://eloquentjavascript.net/09_regexp.html
+-->

@@ -1,0 +1,122 @@
+
+<!doctype html> 
+<html> 
+  <head> 
+  <title>Simple Underscore Demo</title> 
+  <meta charset="utf-8">
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+
+  <style>
+body {font-family: "Georgia", serif; line-height: 1.8em; color: #333;}
+textarea {font-family: Courier, fixed; }
+textarea {padding: 0;}
+.resultPanel, .templatePanel, .htmlPanel {
+  display: inline-block;
+  position: relative;
+  float: left;
+
+  width: 45%;
+  height: 600px;
+  background: lightblue;
+  margin: 5px;
+  padding: 5px;
+}
+#html {width: 300px; min-height: 40px;}
+#result, #template {height: 100%; width: 100%;}
+#result {border: 1px solid #333; background: white;}
+</style>
+
+
+
+  <script>
+
+var items = [
+{
+firstName: "Sheldon",
+lastName: "Schuman",
+preferredName: "",
+address: "Tenth Ave",
+zipcode: "72578",
+memberPreferences: "Camping",
+platinum: "Y"
+}
+];
+
+function process() {
+
+  // WORKS .... but only in the exact format with a space 
+  // ... need todo a trim or osmething
+    _.templateSettings = { interpolate: /%%\= v\(\@(.+?)\)\ =%%/g }; 
+     
+    var templateHTML = document.getElementById("template").value; 
+    var template = _.template(templateHTML);
+    var generatedHTML;
+    
+    for(var i=0; i< items.length; i++) {
+      generatedHTML = template({
+          fname: items[i].firstName,
+          lname: items[i].lastName,
+          prefname: items[i].preferredName,
+          address: items[i].address,
+          zip: items[i].zipcode,
+          mempref: items[i].memberPreferences,
+          plat: items[i].platinum
+        });
+      }    
+
+    //document.getElementById("html").innerHTML = generatedHTML;
+    document.getElementById("result").innerHTML = generatedHTML;
+}
+  </script>
+
+
+
+</head> 
+
+<body onload="process()"> 
+
+  <h3>ampscript scratchpad</h3>
+
+    <div class="templatePanel">
+
+      <strong>Template:</strong><br>
+      
+      <textarea id="template" onkeyup="process()" onchange="process()">
+
+      %%= v(@fname) =%%, below are your account details<br><br>
+
+      First Name:%%= v(@fname) =%%Last Name:%%= v(@lname) =%% <br>
+      Preferred Name:%%= v(@prefname) =%% <br>
+      Address Address:%%= v(@address) =%%Zip:%%= v(@zip) =%% <br>
+      Member Preferences Shopping Preference:%%= v(@mempref) =%% <br>
+      Platinum Member:%%= v(@plat) =%%
+      </textarea>
+
+    </div>
+
+    <div class="resultPanel">
+      <strong>Rendered:</strong><br>
+      <div id="result"></div>
+    </div>
+
+        <!--div class="data">
+      <h3>Data Object:</h3>
+      <textarea id="data" onkeyup="process()" onchange="process()"></textarea>
+    </div>
+
+    <div class="htmlPanel">
+      <strong>Generated HTML:</strong><br>
+      <textarea id="html"></textarea>
+    </div>
+    
+    <pre class="data">
+    </pre>
+
+  <!--/div-->
+
+</html>
+
+</body>
+</html>

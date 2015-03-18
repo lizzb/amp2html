@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://htmledit.squarefree.com/ -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>lizz's Simple Live HTML Editor</title>
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+
+<script type="text/javascript">
+
+
+var editboxHTML = 
+'<html class="expand close">' +
+'<head>' +
+'<style type="text/css">' +
+'.expand { width: 100%; height: 100%; }' +
+'.close { border: none; margin: 0px; padding: 0px; }' +
+'html,body { overflow: hidden; }' +
+'<\/style>' +
+'<\/head>' +
+'<body class="expand close" onload="document.f.ta.focus(); document.f.ta.select();">' +
+'<form class="expand close" name="f">' +
+'<textarea class="expand close" style="background: #fff; padding: 15px 10px; font-family: "Courier New","Lucida Console", Monaco, monospace; font-size: 12px;" name="ta" wrap="hard" spellcheck="false">' +
+'<\/textarea>' +
+'<\/form>' +
+'<\/body>' +
+'<\/html>';
+
+var defaultStuff = 'Hello <strong> %%=v(@name)=%%! <\/strong>\n\nYour id is: %%=v(@id)=%%<br><hr> \n';
+
+defaultStuff = '%%= v(@fname) =%%, below are your account details<br><br>First Name:%%= v(@fname) =%%Last Name:%%= v(@lname) =%% <br>Preferred Name:%%= v(@prefname) =%% <br>Address Address:%%= v(@address) =%%Zip:%%= v(@zip) =%% <br>Member Preferences Shopping Preference:%%= v(@mempref) =%% <br>Platinum Member:%%= v(@plat) =%%';
+
+// I don't want this stuff to appear in the box at the top because I feel it's likely to be distracting.
+var extraStuff = '<div style="position:absolute; margin:.3em; bottom:0em; right:0em;"><small>\n  Created by <a href="http://www.squarefree.com/" target="_top">Jesse Ruderman<\/a> and hosted by <a href="http://www.dreamhost.com/rewards.cgi?jesseruderman" target="_top">DreamHost<\/a>.\n<\/small><\/div>';
+
+var htmlPanel = '';
+var generatedHTML = '';
+         
+function init()
+{
+  window.editbox.document.write(editboxHTML);
+  window.editbox.document.close();
+  window.editbox.document.f.ta.value = defaultStuff;
+  update();
+}
+
+function update()
+{
+
+  var textarea = window.editbox.document.f.ta;
+  var d = dynamicframe.document; 
+
+  var generatedHTML = '';
+  if (htmlPanel != textarea.value) {
+    htmlPanel = textarea.value;
+
+    // WORKS .... but only in the exact format with a space ... need todo a trim or osmething
+    _.templateSettings = { interpolate: /%%\= v\(\@(.+?)\)\ =%%/g }; 
+    //var templateHTML; // = document.getElementById("simple-template").innerHTML;
+    var templateHTML = htmlPanel;
+    var template = _.template(templateHTML);
+    for(var i=0; i< items.length; i++) {
+      generatedHTML += template(
+        {
+          //name: items[i].firstName,
+          //id: items[i].isAARP
+          fname: items[i].firstName,
+          lname: items[i].lastName,
+          prefname: items[i].preferredName,
+          address: items[i].address,
+          zip: items[i].zipcode,
+          mempref: items[i].memberPreferences,
+          plat: items[i].platinum
+        });
+      //document.getElementById("test").innerHTML += template({name: items[i].firstName, id: items[i].isAARP});
+      }
+
+      d.open();
+      d.write(generatedHTML); //d.write(old);
+      //if (old.replace(/[\r\n]/g,'') == defaultStuff.replace(/[\r\n]/g,''))
+      //  d.write(extraStuff);
+      d.close();
+  }
+
+
+
+
+
+  window.setTimeout(update, 150);
+}
+
+
+var items = [
+{
+firstName: "Sheldon",
+lastName: "Schuman",
+preferredName: "",
+address: "Tenth Ave",
+zipcode: "72578",
+memberPreferences: "Camping",
+platinum: "Y"
+},
+{
+firstName: "",
+lastName: "",
+preferredName: "",
+address: "",
+zipcode: "",
+memberPreferences: "",
+platinum: ""
+},
+
+];
+
+
+
+  /*var items =[
+  {"preferredName":"","firstName":"George","LastName":"Bluth","email":"george.sr@bluthco.com","isFemale":0,"chickenDance":"Coo-coo-ca-cha!","isAARP":1,"primaryInterest":"entrepreneurship"},
+{"preferredName":"GOB","firstName":"George Oscar","LastName":"Bluth","email":"gobthemagician@bluthco.com","isFemale":0,"chickenDance":"Co-ka-co-ka…","isAARP":0,"primaryInterest":"magic"},
+{"preferredName":"Lindsay","firstName":"Lindsay (né Nellie)","LastName":"Bluth Fünke","email":"shamale@bluthco.com","isFemale":1,"chickenDance":"Cha-chee-cha…","isAARP":0,"primaryInterest":"shopping"},
+{"preferredName":"","firstName":"Lucille","LastName":"Bluth","email":"lucille1@bluthco.com","isFemale":1,"chickenDance":"A-koodle-doodle-doo","isAARP":1,"primaryInterest":"alcohol"}
+];*/
+
+
+
+
+
+
+</script>
+</head>
+
+
+<!-- https://help.exacttarget.com/en-US/documentation/exacttarget/content/ampscript/getting_started_with_ampscript/ampscript_101/ -->
+
+<!-- var startingText = '<div id="test"></div><script type="text/html" id="simple-template">Hello %%=v(@name)=%%! Your id is: %%=v(@id)=%%<br><hr></script>';-->
+
+
+
+
+
+<frameset resizable="yes" cols="50%,*" onload="init();">
+  <!-- about:blank confuses opera, so use javascript: URLs instead -->
+  <frame name="editbox" src="javascript:'';">
+  <frame name="dynamicframe" src="javascript:'';">
+</frameset>
+
+
+<!--
+<style>
+.result div {
+  font-size: .8em;
+  width: 31em;
+  height: 15em;
+  margin: 1em 1em 2em 1em;
+  padding: 1em;
+  border: 1px solid #333;
+}
+</style>
+
+<textarea id="template"></textarea>
+
+<div class="result">
+
+      <h3>How It Looks:</h3>
+
+      <div id="result">
+      </div>
+
+    </div>
+-->
+</html>

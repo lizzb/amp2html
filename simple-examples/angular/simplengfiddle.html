@@ -1,0 +1,33 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<body ng-app="MyApp">
+  <div ng-controller="MyCtrl">
+    
+      <input ng-model="query" type="text"
+        placeholder="Filter by" autofocus>
+    
+    <ul ng-repeat="friend in friends | filter:query | orderBy: 'name' ">
+      <li>{{friend.name}}</li>
+    </ul>
+  </div>
+</body>
+
+<script>
+var app = angular.module("MyApp", []);
+
+app.controller("MyCtrl", function($scope) {
+  $scope.friends = [
+    { name: "Peter",   age: 20 },
+    { name: "Pablo",   age: 55 },
+    { name: "Linda",   age: 20 },
+    { name: "Marta",   age: 37 },
+    { name: "Othello", age: 20 },
+    { name: "Markus",  age: 32 }
+  ];
+
+  $scope.filterFunction = function(element) {
+    return element.match(/^Ma/) ? true : false;
+      //element.name.match(/^Ma/) ? true : false;
+  };
+
+});
+</script>

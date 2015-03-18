@@ -1,0 +1,160 @@
+
+<!doctype html> 
+<html> 
+  <head> 
+  <title>A Simple Mustache Demo</title> 
+  <meta charset="utf-8">
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="http://www.elated.com/res/File/articles/development/easy-html-templates-with-mustache/mustache.js"></script>
+  <script>
+/*
+  var initialData = 'var data = {
+  "name": "SuperWidget",
+  "colour": "Green",
+  "price": "19.99"
+};*/
+
+var items = [
+{
+firstName: "Sheldon",
+lastName: "Schuman",
+preferredName: "",
+address: "Tenth Ave",
+zipcode: "72578",
+memberPreferences: "Camping",
+platinum: "Y"
+}
+];
+
+function process() {
+  var template, data, generatedHTML;
+  template = document.getElementById('template').value; 
+  //$('#template').val();
+  eval( document.getElementById('data').value );
+  //eval( $('#data').val() );
+  generatedHTML = Mustache.render( template, data );
+  //$('#html').text( generatedHTML );
+ // $('#result').html( generatedHTML );
+document.getElementById('html').value = generatedHTML;
+  document.getElementById('result').innerHTML = generatedHTML;
+}
+
+
+  </script>
+
+<style>
+
+body {
+  font-family: "Georgia", serif;
+  line-height: 1.8em;
+  color: #333;
+}
+
+#wrap {
+  width: 57em;
+}
+
+textarea, .result div {
+  font-size: .8em;
+  width: 31em;
+  height: 15em;
+  margin: 1em 1em 2em 1em;
+  padding: 1em;
+}
+
+textarea {
+  font-family: Courier, fixed;
+}
+
+.template, .html, .data, .result {
+  float: left;
+}
+
+.result div {
+  border: 1px solid #333;
+}
+
+h3 {
+  display block;
+  margin: 2em 0 0 .7em;
+}
+
+.process {
+  display: block;
+  clear: both;
+  margin: 1em 0;
+  width: 56em;
+  text-align: center;
+}
+
+button {
+  font-size: 1.5em; margin-top: 1em;
+}
+
+    /* http://www.bloggersentral.com/2013/03/content-spoiler-with-simple-css3.html */
+/* animated spoiler CSS by Bloggersentral.com */
+</style>
+</head> 
+<body onload="process()"> 
+
+  <h3>A Simple Mustache <a target="_blank" href="http://www.elated.com/articles/easy-html-templates-with-mustache/">Demo</a></h3>
+
+  <div id="wrap">
+
+    <div class="template">
+
+      <h3>Mustache Template:</h3>
+
+      <textarea id="template" onkeyup="process()" onchange="process()">
+<h4>Product Info: {{name}}</h4>
+
+<ul>
+  <li>Product: {{name}}</li>
+  <li>Colour: {{colour}}</li>
+  <li>Price: ${{price}}</li>
+</ul>
+      </textarea>
+
+    </div>
+
+    <div class="data">
+
+      <h3>Data Object:</h3>
+
+      <textarea id="data" onkeyup="process()" onchange="process()">
+var data = {
+  "name": "SuperWidget",
+  "colour": "yellow",
+  "price": "19.99"
+}
+     
+      </textarea>
+
+    </div>
+
+    <!--div class="process"><button onclick="process()">Process Template</button-->
+    </div>
+
+
+ <!--input class="spoilerbutton" type="button" value="Show" onclick="this.value=this.value=='Show'?'Hide':'Show';"-->
+
+    <div class="html">
+
+      <h3>HTML Result:</h3>
+      <textarea id="html"></textarea>
+
+    </div>
+
+    <div class="result">
+
+      <h3>How It Looks:</h3>
+      <div id="result"></div>
+
+    </div>
+
+  </div>
+
+</html>
+
+</body>
+</html>
