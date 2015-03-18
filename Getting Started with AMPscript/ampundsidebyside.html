@@ -1,0 +1,145 @@
+
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+
+<script>
+
+function process() {
+var templateHTML = document.getElementById("underscore_template").innerHTML;
+var template = _.template(templateHTML);
+
+for(var i=0; i< items.length; i++) {
+  var generatedHTML = template(
+    {
+        fName: items[i].firstName,
+        lName: items[i].lastName,
+        pName: items[i].preferredName,
+      status: items[i].memberStatus
+    }); 
+  document.getElementById("output").innerHTML += generatedHTML;
+  }
+
+}
+</script>
+
+<style>
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: smaller;
+  background: #ddd;
+}
+
+
+.btn {
+  color: #ffffff;
+  font-size: 12px;
+  background: #2a83bf;
+  padding: 10px 10px 10px 10px;
+  text-decoration: none;
+  margin: 1px;
+}
+
+.btn:hover {
+  background: #41b3fa;
+  text-decoration: none;
+}
+
+div {
+  display: inline-block;
+  position: relative;
+  width: 420px;
+}
+
+pre {
+  padding: 4px;
+  /*font-weight: 600;*/
+  background: white;
+  border: 1px solid gray;
+}
+
+.ts { color: #007acc; }
+.js { color: teal; }
+
+.data {width: 300px; height: 50px; overflow: scroll;}
+
+li{
+  margin: 10px 0;
+}
+</style>
+
+<br><br>
+
+
+<textarea id="template" onkeyup="process()" onchange="process()">
+
+dsfasd
+</textarea>
+
+<div>Underscore default syntax
+<pre class="js"><code id="underscore_template">
+<%=fName%> 
+
+<% if(pName == null) { %>
+        <%= fName %>
+    <% } else { %>
+        (<%= pName %>)
+    <% } %>
+    
+<%=  lName  %> 
+
+
+<em><%=  status  %></em> <% if(status == "Gold") { %>
+        Middle of the pack
+    <% } else if(status == "Silver") { %>
+        You suck
+        <% } else if(status == "Platinum") { %>
+        winner winner chicken dinner
+    <% } %>
+
+</code></pre>
+</div>
+
+<div id="output"></div>
+
+<div>TypeScript
+<pre class="ts"><code>
+code in ampscript syntax
+dadsafsd
+</code></pre>
+</div>
+
+
+
+<a class="btn" onclick="process()">Process </a>
+
+
+<pre class="data">
+var items =
+[{
+firstName: "Sheldon",
+lastName: "Schuman",
+memberStatus: "Gold"
+},
+ {
+firstName: "Christina",
+lastName: "Schuman",
+preferredName: "Chrissy",
+memberStatus: "Platinum"
+  
+},
+  {
+firstName: "Mark",
+lastName: "Towers",
+preferredName: "",
+memberStatus: "Silver"
+},
+ 
+ {
+firstName: "Demetria",
+lastName: "Towers",
+preferredName: "Demi",
+},
+];
+
+</pre>

@@ -1,0 +1,33 @@
+%%[/* 201 */
+Var @memid, @fname, @lname, @prefname, @address, @city, @state, @zip, @mempref, @plat, @ship
+
+Set @memid = MemberID
+Set @fname = FirstName
+Set @lname = LastName
+Set @prefname = PrefName
+Set @address = Address
+Set @zip = Zip
+Set @city = Lookup("ShipTimes","city","zip",@zip)
+Set @state = Lookup("ShipTimes","state","zip",@zip)
+Set @mempref = MemPref
+Set @plat = Plat
+
+/* 201 */ ]%%%%[ if not empty(@prefname) then ]%%%%= v(@prefname) =%%%%[ else ]%%%%= v(@fname) =%%%%[ endif
+ ]%%, below are your account detailsName 
+
+First Name:%%= v(@fname) =%%Last Name:%%= v(@lname) =%%
+
+%%[ if not Empty(@prefname) then ]%%Preferred Name:%%= v(@prefname) =%%
+
+%%[ endif ]%%Address 
+
+Address:%%= v(@address) =%%City:%%= v(@city) =%%
+State:%%= v(@state) =%%Zip:%%= v(@zip) =%%
+
+Member Preferences 
+
+Shopping Preference:%%= v(@mempref) =%%Platinum Member:%%[ if @plat == "N" then ]%%
+
+%%= RedirectTo(Concat('http://example.com?s=',_subscriberkey)) =%% 
+
+Sign-Up %%[ else ]%%%%= v(@plat) =%%%%[ endif ]%%
